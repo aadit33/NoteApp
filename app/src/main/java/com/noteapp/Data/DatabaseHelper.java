@@ -17,7 +17,7 @@ import java.util.List;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     // Database Version
-    private static final int DATABASE_VERSION = 4;
+    private static final int DATABASE_VERSION = 5;
 
     // Database Name
     private static final String DATABASE_NAME = "Note.db";
@@ -38,6 +38,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String COLUMN_NOTE_CREATE_DATE = "note_create_date";
     private static final String COLUMN_NOTE_UPDATE_DATE = "note_update_date";
     private static final String COLUMN_NOTE_IMAGE = "note_image";
+    private static final String COLUMN_NOTE_COLOR = "note_color";
 
     // create table sql query
     private String CREATE_USER_TABLE = "CREATE TABLE " + TABLE_USER + "("
@@ -56,6 +57,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             + COLUMN_NOTE_DESC + " TEXT,"
             + COLUMN_NOTE_CREATE_DATE + " TEXT,"
             + COLUMN_NOTE_IMAGE + " TEXT,"
+            + COLUMN_NOTE_COLOR + " TEXT,"
             + COLUMN_NOTE_UPDATE_DATE + " TEXT" + ");";
 
 
@@ -118,6 +120,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(COLUMN_NOTE_CREATE_DATE, noteData.getCreationDate());
         values.put(COLUMN_NOTE_UPDATE_DATE, noteData.getLastUpdateDate());
         values.put(COLUMN_NOTE_IMAGE, noteData.getSnap());
+        values.put(COLUMN_NOTE_COLOR, noteData.getColor());
 
         // Inserting Row
         db.insert(TABLE_NOTE, null, values);
@@ -262,7 +265,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 COLUMN_NOTE_TITLE,
                 COLUMN_NOTE_DESC,
                 COLUMN_NOTE_CREATE_DATE,
-                COLUMN_NOTE_IMAGE
+                COLUMN_NOTE_IMAGE,
+                COLUMN_NOTE_COLOR
         };
         // sorting orders
         String sortOrder =
@@ -290,6 +294,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 note.setContent(cursor.getString(cursor.getColumnIndex(COLUMN_NOTE_DESC)));
                 note.setCreationDate(cursor.getString(cursor.getColumnIndex(COLUMN_NOTE_CREATE_DATE)));
                 note.setSnap(cursor.getString(cursor.getColumnIndex(COLUMN_NOTE_IMAGE)));
+                note.setColor(cursor.getString(cursor.getColumnIndex(COLUMN_NOTE_COLOR)));
                 // Adding user record to list
                 noteList.add(note);
             } while (cursor.moveToNext());
@@ -302,13 +307,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
 
-    public void upDateNoti(String title, String content, String id,String img) {
+    public void upDateNoti(String title, String content, String id,String img,String color) {
 
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_NOTE_TITLE, title);
         contentValues.put(COLUMN_NOTE_DESC, content);
         contentValues.put(COLUMN_NOTE_IMAGE, img);
+        contentValues.put(COLUMN_NOTE_COLOR, color);
         db.update(TABLE_NOTE, contentValues, COLUMN_NOTE_ID + "=" + id, null);
         db.close();
 

@@ -1,6 +1,7 @@
 package com.noteapp;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ComponentName;
 import android.content.ContentValues;
@@ -13,6 +14,7 @@ import android.content.pm.ResolveInfo;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -23,17 +25,19 @@ import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.util.Base64;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
+import android.widget.LinearLayout;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -44,7 +48,6 @@ import com.noteapp.Model.NoteData;
 import com.noteapp.Widgets.Constant;
 import com.noteapp.Widgets.CropingOptionAdapter;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -57,12 +60,13 @@ import java.util.Objects;
 
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 import static android.os.Build.VERSION_CODES.M;
+import static com.noteapp.Widgets.Constant.darkenNoteColor;
 
 public class NoteAddActivity extends AppCompatActivity {
 
     private TextInputEditText titleEditText, contentEditText;
     private TextInputLayout textTitie, textContent;
-    private Button saveNote, takePhoto;
+    private Button saveNote, takePhoto, choosePhoto;
     private String lastUpdateDateString, creationDateString, lastTitle, lastContent, userId, noteId, getTitle, getContent, image;
     private int notePosition;
     private boolean isUpdate = false;
@@ -77,13 +81,21 @@ public class NoteAddActivity extends AppCompatActivity {
     private ImageView snap;
     private String encodedImageData;
     private DatabaseHelper databaseHelper;
+    LinearLayout noteActionsLayout, bottom_bar;
+    private NestedScrollView scrollView;
+    RadioGroup colorPickerRadioGroup;
+    private String noteColor;
+    private Toolbar toolbar;
+    private CardView main_card;
+    private String oldColor;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_note_add);
-        Toolbar toolbar = findViewById(R.id.toolbar);
+
+        toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         databaseHelper = new DatabaseHelper(this);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
@@ -102,9 +114,10 @@ public class NoteAddActivity extends AppCompatActivity {
         lastTitle = editionIntent.getStringExtra("title");
         lastContent = editionIntent.getStringExtra("content");
         creationDateString = editionIntent.getStringExtra("creationDate");
+        oldColor = editionIntent.getStringExtra("color");
         image = editionIntent.getStringExtra("image");
         notePosition = editionIntent.getIntExtra("position", -1);
-
+        noteColor = oldColor;
         if (noteId != null) {
             if (!noteId.equals("")) {
                 isUpdate = true;
@@ -118,17 +131,24 @@ public class NoteAddActivity extends AppCompatActivity {
         bindResources();
         saveNoteInDb();
         takePhoto();
+        chooseColor();
     }
 
 
     private void bindResources() {
+        scrollView = findViewById(R.id.scrollView);
         textTitie = findViewById(R.id.text_title);
         titleEditText = findViewById(R.id.title_edit_text);
         textContent = findViewById(R.id.text_content);
         contentEditText = findViewById(R.id.content_edit_text);
         saveNote = findViewById(R.id.save_note);
         takePhoto = findViewById(R.id.take_photo);
+        choosePhoto = findViewById(R.id.choose_photo);
         snap = findViewById(R.id.snap);
+        noteActionsLayout = findViewById(R.id.note_actions_layout);
+        colorPickerRadioGroup = findViewById(R.id.color_picker_radio_group);
+        main_card = findViewById(R.id.main_card);
+        bottom_bar = findViewById(R.id.bottom_bar);
 
 
         // Set title and content if edit
@@ -149,6 +169,14 @@ public class NoteAddActivity extends AppCompatActivity {
         if (creationDateString.isEmpty())
             creationDateString = new SimpleDateFormat("ddMMyyyyhhmmss", Locale.getDefault()).format(new Date());
         lastUpdateDateString = new SimpleDateFormat("HH:mm", Locale.getDefault()).format(new Date());
+
+        scrollView.setBackgroundColor(Color.parseColor(oldColor));
+        noteActionsLayout.setBackgroundColor(Color.parseColor(oldColor));
+        main_card.setBackgroundColor(Color.parseColor(oldColor));
+        toolbar.setBackgroundColor(Color.parseColor(oldColor));
+        bottom_bar.setBackgroundColor(Color.parseColor(oldColor));
+        getWindow().setStatusBarColor(darkenNoteColor(Color.parseColor(oldColor), 0.7f));
+
     }
 
 
@@ -172,7 +200,7 @@ public class NoteAddActivity extends AppCompatActivity {
         if (isUpdate) {
             //update
             if (!titleEditText.equals(lastTitle) || !contentEditText.equals(lastContent)) {
-              //  databaseHelper.upDateNoti(titleEditText.getText().toString(),contentEditText.getText().toString(), noteId);
+                //  databaseHelper.upDateNoti(titleEditText.getText().toString(),contentEditText.getText().toString(), noteId);
 
                 encodedImageData = image;
                 goToListNote(true);
@@ -185,8 +213,7 @@ public class NoteAddActivity extends AppCompatActivity {
 //            //insert
 
 
-
-        //    databaseHelper.addNote(noteData);
+            //    databaseHelper.addNote(noteData);
             goToListNote(false);
 
         }
@@ -201,7 +228,8 @@ public class NoteAddActivity extends AppCompatActivity {
                 , contentEditText.getText().toString()
                 , lastUpdateDateString
                 , creationDateString
-                , encodedImageData);
+                , encodedImageData
+                , noteColor);
 
         Intent resultIntent = new Intent();
         resultIntent.putExtra("noteJSON", gson.toJson(noteData));
@@ -541,9 +569,63 @@ public class NoteAddActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private ArrayList<NoteData> getSavedNotes() {
-       ArrayList<NoteData> listViewItems = new ArrayList<>();
-        listViewItems = databaseHelper.getAllNotes();
-        return listViewItems;
+    private void chooseColor() {
+        choosePhoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (noteActionsLayout.getVisibility() == View.GONE) {
+                    noteActionsLayout.setVisibility(View.VISIBLE);
+                    ///noteActionsButton.setBackgroundColor(darkenNoteColor(Color.parseColor(noteColor), 0.9f));
+                } else if (noteActionsLayout.getVisibility() == View.VISIBLE) {
+                    // noteActionsButton.setBackgroundColor(Color.parseColor(noteColor));
+                    noteActionsLayout.setVisibility(View.GONE);
+                }
+
+
+            }
+        });
+
+        // Check the color picker
+        colorPickerRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @SuppressLint("ResourceType")
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+
+                if (checkedId == R.id.default_color_checkbox) {
+                    noteColor = getResources().getString(R.color.colorNoteDefault);
+
+                } else if (checkedId == R.id.red_color_checkbox) {
+                    noteColor = getResources().getString(R.color.colorNoteRed);
+                } else if (checkedId == R.id.orange_color_checkbox) {
+                    noteColor = getResources().getString(R.color.colorNoteOrange);
+                } else if (checkedId == R.id.yellow_color_checkbox) {
+                    noteColor = getResources().getString(R.color.colorNoteYellow);
+                } else if (checkedId == R.id.green_color_checkbox) {
+                    noteColor = getResources().getString(R.color.colorNoteGreen);
+                } else if (checkedId == R.id.cyan_color_checkbox) {
+                    noteColor = getResources().getString(R.color.colorNoteCyan);
+                } else if (checkedId == R.id.light_blue_color_checkbox) {
+                    noteColor = getResources().getString(R.color.colorNoteLightBlue);
+                } else if (checkedId == R.id.dark_blue_color_checkbox) {
+                    noteColor = getResources().getString(R.color.colorNoteDarkBlue);
+                } else if (checkedId == R.id.purple_color_checkbox) {
+                    noteColor = getResources().getString(R.color.colorNotePurple);
+                } else if (checkedId == R.id.pink_color_checkbox) {
+                    noteColor = getResources().getString(R.color.colorNotePink);
+                } else if (checkedId == R.id.brown_color_checkbox) {
+                    noteColor = getResources().getString(R.color.colorNoteBrow);
+                } else if (checkedId == R.id.grey_color_checkbox) {
+                    noteColor = getResources().getString(R.color.colorNoteGrey);
+                }
+                scrollView.setBackgroundColor(Color.parseColor(noteColor));
+                noteActionsLayout.setBackgroundColor(Color.parseColor(noteColor));
+                main_card.setBackgroundColor(Color.parseColor(noteColor));
+                toolbar.setBackgroundColor(Color.parseColor(noteColor));
+                bottom_bar.setBackgroundColor(Color.parseColor(noteColor));
+                getWindow().setStatusBarColor(darkenNoteColor(Color.parseColor(noteColor), 0.7f));
+
+
+            }
+        });
     }
 }

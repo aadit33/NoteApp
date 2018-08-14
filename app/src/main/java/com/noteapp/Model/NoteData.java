@@ -12,20 +12,28 @@ public class NoteData {
     private String lastUpdateDate;
     private String creationDate;
     private String snap;
+    private String color;
 
     public NoteData() {
     }
 
-    public NoteData(String userId, String title, String content , String lastUpdateDate, String creationDate,String snap) {
+    public NoteData(String userId, String title, String content , String lastUpdateDate, String creationDate,String snap,String color) {
         this.userId = userId;
         this.title = title;
         this.content = content;
         this.lastUpdateDate = lastUpdateDate;
         this.creationDate = creationDate;
         this.snap = snap;
+        this.color = color;
     }
 
+    public String getColor() {
+        return color;
+    }
 
+    public void setColor(String color) {
+        this.color = color;
+    }
 
     public String getSnap() {
         return snap;

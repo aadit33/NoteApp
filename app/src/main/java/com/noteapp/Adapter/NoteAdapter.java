@@ -1,6 +1,7 @@
 package com.noteapp.Adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -62,6 +63,9 @@ public class NoteAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         //delete notes
         holder.close.setOnClickListener(new close(position, holder));
 
+        if (pos.getColor() != null)
+            holder.rootLayout.setBackgroundColor(Color.parseColor(pos.getColor()));
+
 
     }
 
@@ -75,7 +79,7 @@ public class NoteAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private TextView noteTitle, noteContent;
-        private ImageView noteImage,close;
+        private ImageView noteImage, close;
         private CardView rootLayout;
 
 

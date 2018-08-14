@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <LinearLayout
+        android:id="@+id/note_actions_layout"
+        android:layout_width="wrap_content"
+        android:visibility="gone"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <HorizontalScrollView
+            android:id="@+id/color_scroll_view"
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:scrollbars="none"
+            android:fillViewport="true" >
+
+            <LinearLayout
+                android:id="@+id/color_picker_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:gravity="center" >
+
+                <RadioGroup
+                    android:id="@+id/color_picker_radio_group"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    tools:ignore="UselessParent">
+
+                    <RadioButton
+                        android:id="@+id/default_color_checkbox"
+                        android:layout_marginStart="10dp"
+                        android:layout_width="35dp"
+                        android:layout_height="match_parent"
+                        android:checked="true"
+                        android:layout_marginEnd="12dp"
+                        android:background="@drawable/checkbox_default"
+                        android:button="@null" />
+
+                    <RadioButton
+                        android:id="@+id/red_color_checkbox"
+                        android:layout_width="35dp"
+                        android:layout_height="match_parent"
+                        android:checked="false"
+                        android:layout_marginEnd="12dp"
+                        android:background="@drawable/checkbox_red"
+                        android:button="@null" />
+
+                    <RadioButton
+                        android:id="@+id/orange_color_checkbox"
+                        android:layout_width="35dp"
+                        android:layout_height="match_parent"
+                        android:checked="false"
+                        android:layout_marginEnd="12dp"
+                        android:background="@drawable/checkbox_orange"
+                        android:button="@null" />
+
+                    <RadioButton
+                        android:id="@+id/yellow_color_checkbox"
+                        android:layout_width="35dp"
+                        android:layout_height="match_parent"
+                        android:checked="false"
+                        android:layout_marginEnd="12dp"
+                        android:background="@drawable/checkbox_yellow"
+                        android:button="@null" />
+
+                    <RadioButton
+                        android:id="@+id/green_color_checkbox"
+                        android:layout_width="35dp"
+                        android:layout_height="match_parent"
+                        android:checked="false"
+                        android:layout_marginEnd="12dp"
+                        android:background="@drawable/checkbox_green"
+                        android:button="@null" />
+
+                    <RadioButton
+                        android:id="@+id/cyan_color_checkbox"
+                        android:layout_width="35dp"
+                        android:layout_height="match_parent"
+                        android:checked="false"
+                        android:layout_marginEnd="12dp"
+                        android:background="@drawable/checkbox_cyan"
+                        android:button="@null" />
+
+                    <RadioButton
+                        android:id="@+id/light_blue_color_checkbox"
+                        android:layout_width="35dp"
+                        android:layout_height="match_parent"
+                        android:checked="false"
+                        android:layout_marginEnd="12dp"
+                        android:background="@drawable/checkbox_light_blue"
+                        android:button="@null" />
+
+                    <RadioButton
+                        android:id="@+id/dark_blue_color_checkbox"
+                        android:layout_width="35dp"
+                        android:layout_height="match_parent"
+                        android:checked="false"
+                        android:layout_marginEnd="12dp"
+                        android:background="@drawable/checkbox_dark_blue"
+                        android:button="@null" />
+
+                    <RadioButton
+                        android:id="@+id/purple_color_checkbox"
+                        android:layout_width="35dp"
+                        android:layout_height="match_parent"
+                        android:checked="false"
+                        android:layout_marginEnd="12dp"
+                        android:background="@drawable/checkbox_purple"
+                        android:button="@null" />
+
+                    <RadioButton
+                        android:id="@+id/pink_color_checkbox"
+                        android:layout_width="35dp"
+                        android:layout_height="match_parent"
+                        android:checked="false"
+                        android:layout_marginEnd="12dp"
+                        android:background="@drawable/checkbox_pink"
+                        android:button="@null" />
+
+                    <RadioButton
+                        android:id="@+id/brown_color_checkbox"
+                        android:layout_width="35dp"
+                        android:layout_height="match_parent"
+                        android:checked="false"
+                        android:layout_marginEnd="12dp"
+                        android:background="@drawable/checkbox_brown"
+                        android:button="@null" />
+
+                    <RadioButton
+                        android:id="@+id/grey_color_checkbox"
+                        android:layout_width="35dp"
+                        android:layout_height="match_parent"
+                        android:checked="false"
+                        android:background="@drawable/checkbox_grey"
+                        android:layout_marginEnd="10dp"
+                        android:button="@null" />
+
+                </RadioGroup>
+
+            </LinearLayout>
+
+        </HorizontalScrollView>
+
+</LinearLayout>
+</LinearLayout>

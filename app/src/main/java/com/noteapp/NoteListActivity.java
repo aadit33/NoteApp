@@ -42,7 +42,7 @@ public class NoteListActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                goToNoteAdd("", "", "", "", -1, "");
+                goToNoteAdd("", "", "", "", -1, "", getResources().getString(R.color.colorNoteDefault));
             }
         });
 
@@ -77,7 +77,7 @@ public class NoteListActivity extends AppCompatActivity {
         // Load notes from Db
         noteList = loadNotes();
 
-        noteAdapter = new NoteAdapter(noteList, this,databaseHelper);
+        noteAdapter = new NoteAdapter(noteList, this, databaseHelper);
         noteRecycler.setAdapter(noteAdapter);
 
         NoteAdapter.OnItemClickListener onItemClickListener = new NoteAdapter.OnItemClickListener() {
@@ -85,7 +85,13 @@ public class NoteListActivity extends AppCompatActivity {
             public void onItemClick(View view, int position) {
                 //NoteData noteData = noteList.get(position);//
                 NoteData noteData = getSavedloadNotes().get(position);
-                goToNoteAdd(noteData.getNoteId(), noteData.getTitle(), noteData.getContent(), noteData.getCreationDate(), position, noteData.getSnap());
+                goToNoteAdd(noteData.getNoteId()
+                        , noteData.getTitle()
+                        , noteData.getContent()
+                        , noteData.getCreationDate()
+                        , position
+                        , noteData.getSnap()
+                        , noteData.getColor());
 
             }
         };
@@ -94,12 +100,13 @@ public class NoteListActivity extends AppCompatActivity {
 
     }
 
-    private void goToNoteAdd(String noteId, String title, String content, String creationDate, int position, String snap) {
+    private void goToNoteAdd(String noteId, String title, String content, String creationDate, int position, String snap, String color) {
         Intent simpleNoteIntent = new Intent(getApplicationContext(), NoteAddActivity.class);
         simpleNoteIntent.putExtra("note_id", noteId);
         simpleNoteIntent.putExtra("title", title);
         simpleNoteIntent.putExtra("content", content);
         simpleNoteIntent.putExtra("creationDate", creationDate);
+        simpleNoteIntent.putExtra("color", color);
         simpleNoteIntent.putExtra("position", position);
         simpleNoteIntent.putExtra("image", snap);
         // TODO
@@ -119,7 +126,7 @@ public class NoteListActivity extends AppCompatActivity {
 
             if (notePosition > -1) {
                 listViewItems.remove(notePosition);
-                databaseHelper.upDateNoti(noteData.getTitle(), noteData.getContent(), noteId,noteData.getSnap());
+                databaseHelper.upDateNoti(noteData.getTitle(), noteData.getContent(), noteId, noteData.getSnap(),noteData.getColor());
                 listViewItems.add(notePosition, noteData);
                 noteAdapter.notifyItemChanged(notePosition);
             } else {
