@@ -1,0 +1,27 @@
+<resources>
+    <string name="app_name">NoteApp</string>
+    <string name="log_in">Log in</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="don_t_have_an_account">Don\'t have an account?</string>
+    <string name="sign_up">Sign up</string>
+    <string name="re_enter_password">Re Enter Password</string>
+    <string name="email_field_required">Please Enter Email</string>
+    <string name="enter_valid_email">Please Enter valid Email</string>
+    <string name="enter_pass">Please Enter password</string>
+    <string name="invalid_pass">Password must be atleast 7 characters</string>
+    <string name="pass_not_match">Password Don\'t match</string>
+    <string name="login_sucess">Successfully Logged In</string>
+    <string name="login_failed">InValid Credentials Please Try Again</string>
+    <string name="register_sucess">User registered Successfully</string>
+    <string name="register_failed">User already exists</string>
+    <string name="title_activity_note_list">NoteListActivity</string>
+    <string name="title_activity_note_add">NoteAddActivity</string>
+    <string name="title_placeholder">Title</string>
+    <string name="note_placeholder">Note</string>
+    <string name="save">Save</string>
+    <string name="choose_image">Choose Image</string>
+    <string name="take_photo">Take Photo</string>
+    <string name="enter_title">Please Enter Title</string>
+    <string name="enter_content">Please Enter Content</string>
+</resources>

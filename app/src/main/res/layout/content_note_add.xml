@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    tools:showIn="@layout/activity_note_add">
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/main_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="16dp"
+        app:cardCornerRadius="4dp"
+        app:cardElevation="4dp">
+
+
+        <LinearLayout
+            android:id="@+id/simple_note_creation_linear_layout"
+            android:layout_width="match_parent"
+            android:layout_marginBottom="8dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/snap"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:scaleType="fitXY"
+                android:adjustViewBounds="true"
+                android:visibility="gone" />
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/text_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp">
+
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/title_edit_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:focusedByDefault="false"
+                    android:fontFamily="@font/exoregular"
+                    android:hint="@string/title_placeholder"
+                    android:inputType="textCapSentences"
+                    android:paddingStart="12dp"
+                    android:paddingTop="8dp"
+                    android:textStyle="bold"
+                    tools:ignore="RtlSymmetry" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/text_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/content_edit_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="160dp"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:focusedByDefault="false"
+                    android:fontFamily="@font/exoregular"
+                    android:gravity="top|left"
+                    android:hint="@string/note_placeholder"
+                    android:inputType="textCapSentences|textMultiLine"
+                    android:paddingStart="12dp"
+                    android:paddingTop="8dp"
+                    android:scrollbars="vertical"
+                    tools:ignore="RtlHardcoded,RtlSymmetry" />
+            </android.support.design.widget.TextInputLayout>
+
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+</android.support.v4.widget.NestedScrollView>
