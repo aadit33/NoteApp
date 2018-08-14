@@ -111,6 +111,9 @@ public class NoteListActivity extends AppCompatActivity {
         simpleNoteIntent.putExtra("image", snap);
         // TODO
         startActivityForResult(simpleNoteIntent, 1);
+
+        overridePendingTransition(R.anim.right_to_left, R.anim.blank_anim);
+
     }
 
     // Get the data from the note creation

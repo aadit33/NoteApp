@@ -15,6 +15,7 @@ import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -66,7 +67,7 @@ public class NoteAddActivity extends AppCompatActivity {
 
     private TextInputEditText titleEditText, contentEditText;
     private TextInputLayout textTitie, textContent;
-    private Button saveNote, takePhoto, choosePhoto;
+    private Button saveNote, takePhoto, chooseColor;
     private String lastUpdateDateString, creationDateString, lastTitle, lastContent, userId, noteId, getTitle, getContent, image;
     private int notePosition;
     private boolean isUpdate = false;
@@ -98,6 +99,9 @@ public class NoteAddActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         databaseHelper = new DatabaseHelper(this);
+
+        final Drawable upArrow = getResources().getDrawable(R.drawable.ic_back);
+        getSupportActionBar().setHomeAsUpIndicator(upArrow);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         userId = prefs.getString("user_id", "");
@@ -143,7 +147,7 @@ public class NoteAddActivity extends AppCompatActivity {
         contentEditText = findViewById(R.id.content_edit_text);
         saveNote = findViewById(R.id.save_note);
         takePhoto = findViewById(R.id.take_photo);
-        choosePhoto = findViewById(R.id.choose_photo);
+        chooseColor = findViewById(R.id.choose_color);
         snap = findViewById(R.id.snap);
         noteActionsLayout = findViewById(R.id.note_actions_layout);
         colorPickerRadioGroup = findViewById(R.id.color_picker_radio_group);
@@ -556,21 +560,9 @@ public class NoteAddActivity extends AppCompatActivity {
     }
 
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == android.R.id.home) {
-            finish();
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
 
     private void chooseColor() {
-        choosePhoto.setOnClickListener(new View.OnClickListener() {
+        chooseColor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (noteActionsLayout.getVisibility() == View.GONE) {
@@ -627,5 +619,31 @@ public class NoteAddActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+        if (id == android.R.id.home) {
+            closeActivity();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        closeActivity();
+    }
+
+    private void closeActivity() {
+
+        finish();
+        overridePendingTransition(R.anim.blank_anim, R.anim.left_to_right);
     }
 }

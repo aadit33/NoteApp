@@ -20,7 +20,7 @@
     <string name="title_placeholder">Title</string>
     <string name="note_placeholder">Note</string>
     <string name="save">Save</string>
-    <string name="choose_image">Choose Image</string>
+    <string name="choose_color">Choose Color</string>
     <string name="take_photo">Take Photo</string>
     <string name="enter_title">Please Enter Title</string>
     <string name="enter_content">Please Enter Content</string>

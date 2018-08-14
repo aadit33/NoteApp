@@ -26,16 +26,16 @@
         android:textSize="10sp" />
 
     <Button
-        android:id="@+id/choose_photo"
+        android:id="@+id/choose_color"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:background="?android:attr/selectableItemBackground"
-        android:drawableTop="@drawable/ic_choose_img"
+        android:drawableTop="@drawable/ic_choose_color"
         android:fontFamily="@font/exolight"
         android:gravity="center"
         android:paddingTop="4dp"
-        android:text="@string/choose_image"
+        android:text="@string/choose_color"
         android:textAllCaps="false"
         android:textSize="10sp" />
 
