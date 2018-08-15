@@ -112,6 +112,7 @@ public class NoteAddActivity extends AppCompatActivity {
 
     }
 
+    //get the data from intent
     private void getIntentData() {
         Intent editionIntent = getIntent();
         noteId = editionIntent.getStringExtra("note_id");
@@ -122,6 +123,8 @@ public class NoteAddActivity extends AppCompatActivity {
         image = editionIntent.getStringExtra("image");
         notePosition = editionIntent.getIntExtra("position", -1);
         noteColor = oldColor;
+
+        //if noteId is empty set update flag to true else false
         if (noteId != null) {
             if (!noteId.equals("")) {
                 isUpdate = true;
@@ -174,6 +177,7 @@ public class NoteAddActivity extends AppCompatActivity {
             creationDateString = new SimpleDateFormat("ddMMyyyyhhmmss", Locale.getDefault()).format(new Date());
         lastUpdateDateString = new SimpleDateFormat("HH:mm", Locale.getDefault()).format(new Date());
 
+        //set color to all visible views
         scrollView.setBackgroundColor(Color.parseColor(oldColor));
         noteActionsLayout.setBackgroundColor(Color.parseColor(oldColor));
         main_card.setBackgroundColor(Color.parseColor(oldColor));
@@ -202,10 +206,8 @@ public class NoteAddActivity extends AppCompatActivity {
 
     private void saveNote() {
         if (isUpdate) {
-            //update
+            //update true update data
             if (!titleEditText.equals(lastTitle) || !contentEditText.equals(lastContent)) {
-                //  databaseHelper.upDateNoti(titleEditText.getText().toString(),contentEditText.getText().toString(), noteId);
-
                 encodedImageData = image;
                 goToListNote(true);
                 //
@@ -214,10 +216,7 @@ public class NoteAddActivity extends AppCompatActivity {
 
             }
         } else {
-//            //insert
-
-
-            //    databaseHelper.addNote(noteData);
+//            //insert the data
             goToListNote(false);
 
         }
@@ -496,25 +495,6 @@ public class NoteAddActivity extends AppCompatActivity {
     }
 
 
-//    public Bitmap CompressResizeImage(Bitmap bm) {
-//        int bmWidth = bm.getWidth();
-//        int bmHeight = bm.getHeight();
-//        int ivWidth = propik.getWidth();
-//        // int ivHeight = propik.getHeight();
-//
-//
-//        int new_height = (int) Math.floor((double) bmHeight * ((double) ivWidth / (double) bmWidth));
-//        Bitmap newbitMap = Bitmap.createScaledBitmap(bm, ivWidth, new_height, true);
-//
-//        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-//        newbitMap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-//
-//
-//        byte[] b = baos.toByteArray();
-//
-//
-//        return BitmapFactory.decodeByteArray(b, 0, b.length);
-//    }
 
 
     public void getLoginData() {

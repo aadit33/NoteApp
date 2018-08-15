@@ -51,4 +51,3 @@ public class Splash extends AppCompatActivity {
     }
 }
 
-//keytool -list -v -keystore /Users/aadit/Desktop/goanreporter -alias goanreporter

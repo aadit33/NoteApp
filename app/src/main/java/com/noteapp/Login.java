@@ -56,6 +56,7 @@ public class Login extends AppCompatActivity {
             public void onClick(View v) {
                 if (validate()) {
                     hideKeyBoard();
+                    //check for entered useremail and password in database
                     if (databaseHelper.checkUser(getEmail, getPwd)) {
 
                         loginInSucess();
@@ -137,8 +138,6 @@ public class Login extends AppCompatActivity {
         Snackbar.make(login_parent, R.string.login_sucess, Snackbar.LENGTH_LONG).show();
 
         String userId = databaseHelper.getUserId(getEmail);
-        System.out.println("UserId" + userId);
-
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(Login.this);
         prefs.edit().putBoolean("Islogin", true).apply();
         prefs.edit().putString("user_id", userId).apply();

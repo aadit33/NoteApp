@@ -42,7 +42,13 @@ public class NoteListActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                goToNoteAdd("", "", "", "", -1, "", getResources().getString(R.color.colorNoteDefault));
+                goToNoteAdd(""
+                        , ""
+                        , ""
+                        , ""
+                        , -1
+                        , ""
+                        , getResources().getString(R.color.colorNoteDefault));
             }
         });
 
@@ -83,7 +89,7 @@ public class NoteListActivity extends AppCompatActivity {
         NoteAdapter.OnItemClickListener onItemClickListener = new NoteAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                //NoteData noteData = noteList.get(position);//
+
                 NoteData noteData = getSavedloadNotes().get(position);
                 goToNoteAdd(noteData.getNoteId()
                         , noteData.getTitle()
@@ -125,14 +131,15 @@ public class NoteListActivity extends AppCompatActivity {
             //make this global
             String noteId = data.getStringExtra("noteId");
             NoteData noteData = gson.fromJson(noteJSON, NoteData.class);
-
-
             if (notePosition > -1) {
+                //update the notes data in database if note position is > -1 and refresh the recycler adapter wrt to position
+
                 listViewItems.remove(notePosition);
                 databaseHelper.upDateNoti(noteData.getTitle(), noteData.getContent(), noteId, noteData.getSnap(),noteData.getColor());
                 listViewItems.add(notePosition, noteData);
                 noteAdapter.notifyItemChanged(notePosition);
             } else {
+                //add the note data to database and refresh the adapter
                 databaseHelper.addNote(noteData);
                 listViewItems.add(noteData);
                 noteAdapter.notifyDataSetChanged();
@@ -140,6 +147,7 @@ public class NoteListActivity extends AppCompatActivity {
         }
     }
 
+    //get the notes from database
     private ArrayList<NoteData> loadNotes() {
         listViewItems = new ArrayList<>();
         listViewItems = databaseHelper.getAllNotes();

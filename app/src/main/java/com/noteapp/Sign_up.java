@@ -33,7 +33,6 @@ public class Sign_up extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
-
         databaseHelper = new DatabaseHelper(this);
         init();
 
@@ -60,7 +59,9 @@ public class Sign_up extends AppCompatActivity {
                 if (validate()) {
                     hideKeyBoard();
 
+                    //check if entered email exists in database
                     if (!databaseHelper.checkUser(getEmail)) {
+                        //add user to database
                         databaseHelper.addUser(new User(getEmail, getPwd));
                         registerUserSucess();
                     } else {
@@ -153,9 +154,7 @@ public class Sign_up extends AppCompatActivity {
     }
 
     private void registerUserSucess() {
-
         Snackbar.make(sign_up_parent, R.string.register_sucess, Snackbar.LENGTH_LONG).show();
-
         new Handler().postDelayed(new Runnable() {
 
             @Override
